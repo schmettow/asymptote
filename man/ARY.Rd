@@ -30,7 +30,7 @@ arary(amplS, rateS, amplM, rateM, asym, trialS, trialM)
 
 \item{asym}{asymptote, max performance}
 
-\item{trial}{practice trial}
+\item{trial}{practice trial, starting at 0}
 
 \item{init}{initial performance}
 

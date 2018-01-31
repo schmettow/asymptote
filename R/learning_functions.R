@@ -33,8 +33,8 @@ library(lazyeval)
 #' }
 #'
 #' All functions and formulas are also available with
-#' link functions that put the parameters on a \emph{linear predictor scale, _lp} with a supported
-#' range \eqn{[-\infty; \infty]}:
+#' link functions that put the parameters on a \emph{linear predictor scale} with a supported
+#' range \eqn{[-\infty; \infty]}. These formnulas/functions have the prefix \emph{L} (e.g., LARA)
 #'
 #' \describe{
 #' \item{init, ampl, asym}{exp() <-> log()}
@@ -56,7 +56,7 @@ ARY <-
 #' @export
 
 ary <- function(ampl, rate, asym, trial){
-  f_eval_rhs(ARY, data = as.list(environment()))
+  lazyeval::f_eval_rhs(ARY, data = as.list(environment()))
 }
 
 #' @rdname ARY
@@ -69,7 +69,7 @@ IRA <-
 #' @export
 
 ira <- function(IRA, rate, ampl, trial){
-  f_eval_rhs(F_ara1, data = as.list(environment()))
+  lazyeval::f_eval_rhs(IRA, data = as.list(environment()))
 }
 
 #' @rdname ARY
@@ -81,7 +81,7 @@ ARARY <- formula(perf ~ asym + amplS * exp(-rateS * trialS) + amplM * exp(-rateM
 #' @export
 
 arary <- function(amplS, rateS, amplM, rateM, asym, trialS, trialM){
-  f_eval_rhs(ARARY, data = as.list(environment()))
+  lazyeval::f_eval_rhs(ARARY, data = as.list(environment()))
 }
 
 
