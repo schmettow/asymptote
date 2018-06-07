@@ -16,8 +16,9 @@ library(lazyeval)
 #' The following parametrizations are provided:
 #'
 #' \describe{
-#' \item{ary}{amplitude, rate, asymptote}
-#' \item{ira}{initial performance, rate, amplitude}
+#' \item{ary}{ampl, rate, asym}
+#' \item{ery}{pexp, rate, asym}
+#' \item{iry}{init, rate, asym}
 #' }
 #'
 #' In addition, regression formulas are provided for the Bayesian regression engine brms.
@@ -29,28 +30,25 @@ library(lazyeval)
 #' and a motor sequence component \emph{M} (e.g., learning to draw the exact same figure)
 #'
 #' \describe{
-#' \item{arary}{amplitude_S, rate_S, amplitude_M, rate_M, asymptote}
+#' \item{arary}{ampl, rate, asym}
 #' }
 #'
 #' All functions and formulas are also available with
-#' link functions that put the parameters on a \emph{linear predictor scale} with a supported
-#' range \eqn{[-\infty; \infty]}. These formnulas/functions have the prefix \emph{L} (e.g., LARA)
+#' link functions that put the parameters on a \emph{linear predictor scale} (supported
+#' range \eqn{[-\infty; \infty]}) by log transformation. These formnulas/functions have the prefix \emph{L} (e.g., LARA)
 #'
-#' \describe{
-#' \item{init, ampl, asym}{exp() <-> log()}
-#' \item{rate}{inv_logit() <-> logit()}
-#' }
-
 #'
 #' @examples
 #' ARY
 #' ary(2, 0.3, 1, 1:5)
+#' LARY
+#' lary(log(2), log(0.3), log(1), 1:5)
 #'
 #' @author Martin Schmettow
 #' @export
 
 ARY <-
-  formula(perf ~ asym + ampl * exp(-rate * trial))
+  formula(perf ~ ampl * exp(-rate * trial) + asym)
 
 #' @rdname ARY
 #' @export
@@ -62,15 +60,73 @@ ary <- function(ampl, rate, asym, trial){
 #' @rdname ARY
 #' @export
 
-IRA <-
-  formula(perf ~ init - ampl * exp(-rate * trial))
+SCOR <-
+  formula(perf ~ scale * (exp(-rate * trial) + offset))
 
 #' @rdname ARY
 #' @export
 
-ira <- function(IRA, rate, ampl, trial){
-  lazyeval::f_eval_rhs(IRA, data = as.list(environment()))
+scor <- function(scale, offset, rate, trial){
+  lazyeval::f_eval_rhs(SCARY, data = as.list(environment()))
 }
+
+#' @rdname ARY
+#' @export
+
+LSCOR <-
+  formula(perf ~ exp(scale) * (exp(-exp(rate) * trial) + exp(asym)))
+
+#' @rdname ARY
+#' @export
+
+lscor <- function(scale, offset, rate, trial){
+  lazyeval::f_eval_rhs(LASCARY, data = as.list(environment()))
+}
+
+#' @rdname ARY
+#' @export
+
+
+
+
+LARY <- formula(perf ~ exp(ampl) * exp(-rate * trial) + exp(asym))
+# perf ~ exp(ampl - exp(rate) * trial) + exp(asym)
+
+#' @rdname ARY
+#' @export
+
+lary <- function(ampl, rate, trial){
+  lazyeval::f_eval_rhs(LARY, data = as.list(environment()))
+}
+
+
+
+
+IRY <-
+  formula(perf ~ (init - asym) * exp(-rate * trial) + asym)
+
+#' @rdname ARY
+#' @export
+
+iry <- function(init, rate, asym, trial){
+  lazyeval::f_eval_rhs(IRY, data = as.list(environment()))
+}
+
+
+#' @rdname ARY
+#' @export
+
+ERY <- formula(perf ~ exp(-rate * (trial + pexp)) + asym)
+
+#' @rdname ARY
+#' @export
+
+ery <- function(pexp, rate, asym, trial){
+  lazyeval::f_eval_rhs(ERY, data = as.list(environment()))
+}
+
+
+
 
 #' @rdname ARY
 #' @export
@@ -83,6 +139,21 @@ ARARY <- formula(perf ~ asym + amplS * exp(-rateS * trialS) + amplM * exp(-rateM
 arary <- function(amplS, rateS, amplM, rateM, asym, trialS, trialM){
   lazyeval::f_eval_rhs(ARARY, data = as.list(environment()))
 }
+
+
+#' @rdname ARY
+#' @export
+
+#LARARY <- formula(perf ~ exp(asym) + exp(amplS) * exp(-exp(rateS) * trialS) + exp(amplM) * exp(-exp(rateM) * trialM))
+LARARY <- formula(perf ~ exp(amplS - exp(rateS) * trialS) + exp(amplM - exp(rateM) * trialM) + exp(asym))
+
+#' @rdname ARY
+#' @export
+
+larary <- function(amplS, rateS, amplM, rateM, asym, trialS, trialM){
+  lazyeval::f_eval_rhs(LARARY, data = as.list(environment()))
+}
+
 
 
 

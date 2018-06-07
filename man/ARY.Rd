@@ -4,10 +4,19 @@
 \name{ARY}
 \alias{ARY}
 \alias{ary}
-\alias{IRA}
-\alias{ira}
+\alias{SCOR}
+\alias{scor}
+\alias{LSCOR}
+\alias{lscor}
+\alias{LARY}
+\alias{lary}
+\alias{iry}
+\alias{ERY}
+\alias{ery}
 \alias{ARARY}
 \alias{arary}
+\alias{LARARY}
+\alias{larary}
 \title{Learning curve functions and formulas}
 \format{An object of class \code{formula} of length 3.}
 \usage{
@@ -15,13 +24,31 @@ ARY
 
 ary(ampl, rate, asym, trial)
 
-IRA
+SCOR
 
-ira(IRA, rate, ampl, trial)
+scor(scale, offset, rate, trial)
+
+LSCOR
+
+lscor(scale, offset, rate, trial)
+
+LARY
+
+lary(ampl, rate, trial)
+
+iry(init, rate, asym, trial)
+
+ERY
+
+ery(pexp, rate, asym, trial)
 
 ARARY
 
 arary(amplS, rateS, amplM, rateM, asym, trialS, trialM)
+
+LARARY
+
+larary(amplS, rateS, amplM, rateM, asym, trialS, trialM)
 }
 \arguments{
 \item{ampl}{amplitude (init - asym)}
@@ -43,8 +70,9 @@ Computes the expected performance after practice trials using the exponential la
 The following parametrizations are provided:
 
 \describe{
-\item{ary}{amplitude, rate, asymptote}
-\item{ira}{initial performance, rate, amplitude}
+\item{ary}{ampl, rate, asym}
+\item{ery}{pexp, rate, asym}
+\item{iry}{init, rate, asym}
 }
 
 In addition, regression formulas are provided for the Bayesian regression engine brms.
@@ -56,17 +84,12 @@ a general skill component \emph{S} (e.g. learning to draw a figure using a mirro
 and a motor sequence component \emph{M} (e.g., learning to draw the exact same figure)
 
 \describe{
-\item{arary}{amplitude_S, rate_S, amplitude_M, rate_M, asymptote}
+\item{arary}{ampl, rate, asym}
 }
 
 All functions and formulas are also available with
-link functions that put the parameters on a \emph{linear predictor scale, _lp} with a supported
-range \eqn{[-\infty; \infty]}:
-
-\describe{
-\item{init, ampl, asym}{exp() <-> log()}
-\item{rate}{inv_logit() <-> logit()}
-}
+link functions that put the parameters on a \emph{linear predictor scale} (supported
+range \eqn{[-\infty; \infty]}) by log transformation. These formnulas/functions have the prefix \emph{L} (e.g., LARA)
 }
 \description{
 exponential learning curve functions and non-linear regression formulas for use with brms
@@ -74,6 +97,8 @@ exponential learning curve functions and non-linear regression formulas for use 
 \examples{
 ARY
 ary(2, 0.3, 1, 1:5)
+LARY
+lary(log(2), log(0.3), log(1), 1:5)
 
 }
 \author{
