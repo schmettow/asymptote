@@ -67,20 +67,20 @@ SCOR <-
 #' @export
 
 scor <- function(scale, offset, rate, trial){
-  lazyeval::f_eval_rhs(SCARY, data = as.list(environment()))
+  lazyeval::f_eval_rhs(SCOR, data = as.list(environment()))
 }
 
 #' @rdname ARY
 #' @export
 
 LSCOR <-
-  formula(perf ~ exp(scale) * (exp(-exp(rate) * trial) + exp(asym)))
+  formula(perf ~ exp(scale) * (exp(-exp(rate) * trial) + exp(offset)))
 
 #' @rdname ARY
 #' @export
 
 lscor <- function(scale, offset, rate, trial){
-  lazyeval::f_eval_rhs(LASCARY, data = as.list(environment()))
+  lazyeval::f_eval_rhs(LSCOR, data = as.list(environment()))
 }
 
 #' @rdname ARY
@@ -89,8 +89,7 @@ lscor <- function(scale, offset, rate, trial){
 
 
 
-LARY <- formula(perf ~ exp(ampl) * exp(-rate * trial) + exp(asym))
-# perf ~ exp(ampl - exp(rate) * trial) + exp(asym)
+LARY <- formula(perf ~ exp(ampl) * exp(-exp(rate) * trial) + exp(asym))
 
 #' @rdname ARY
 #' @export
@@ -118,6 +117,7 @@ iry <- function(init, rate, asym, trial){
 
 ERY <- formula(perf ~ exp(-rate * (trial + pexp)) + asym)
 
+
 #' @rdname ARY
 #' @export
 
@@ -126,7 +126,18 @@ ery <- function(pexp, rate, asym, trial){
 }
 
 
+#' @rdname ARY
+#' @export
 
+LERY <- formula(perf ~ exp(-exp(rate) * (trial + pexp)) + exp(asym))
+
+
+#' @rdname ARY
+#' @export
+
+lery <- function(pexp, rate, asym, trial){
+  lazyeval::f_eval_rhs(LERY, data = as.list(environment()))
+}
 
 #' @rdname ARY
 #' @export

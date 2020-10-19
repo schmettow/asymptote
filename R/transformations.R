@@ -38,3 +38,25 @@ scor_to_ary <- function(posterior) {
     bayr::posterior()
 
 }
+
+
+
+#' Set response variable
+#'
+#' sets the response variable of a formula
+#'
+#' @param formula learning curve formula
+#' @param response response variable
+#' @return formula
+#'
+#'
+#'
+#' @author Martin Schmettow
+#' @export
+
+set_response <-
+  function(formula, response) {
+    lazyeval::f_lhs(formula) <- response
+    formula
+  }
+

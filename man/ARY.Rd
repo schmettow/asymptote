@@ -13,12 +13,30 @@
 \alias{iry}
 \alias{ERY}
 \alias{ery}
+\alias{LERY}
+\alias{lery}
 \alias{ARARY}
 \alias{arary}
 \alias{LARARY}
 \alias{larary}
 \title{Learning curve functions and formulas}
-\format{An object of class \code{formula} of length 3.}
+\format{
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+
+An object of class \code{formula} of length 3.
+}
 \usage{
 ARY
 
@@ -41,6 +59,10 @@ iry(init, rate, asym, trial)
 ERY
 
 ery(pexp, rate, asym, trial)
+
+LERY
+
+lery(pexp, rate, asym, trial)
 
 ARARY
 
