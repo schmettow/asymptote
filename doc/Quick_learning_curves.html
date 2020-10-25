@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Vignette Author" />
+
+<meta name="date" content="2020-10-25" />
+
+<title>Quick learning curve estimation</title>
+
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Quick learning curve estimation</h1>
+<h4 class="author">Vignette Author</h4>
+<h4 class="date">2020-10-25</h4>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co">#&gt; -- Attaching packages -------------------------------------------------------------- tidyverse 1.3.0 --</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co">#&gt; v ggplot2 3.3.2     v purrr   0.3.4</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co">#&gt; v tibble  3.0.3     v dplyr   1.0.2</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co">#&gt; v tidyr   1.1.2     v stringr 1.4.0</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co">#&gt; v readr   1.3.1     v forcats 0.5.0</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="co">#&gt; -- Conflicts ----------------------------------------------------------------- tidyverse_conflicts() --</span></span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="co">#&gt; x dplyr::filter() masks stats::filter()</span></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co">#&gt; x dplyr::lag()    masks stats::lag()</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a><span class="co"># devtools::install_github(&quot;schmettow/asymptote&quot;)</span></span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="kw">library</span>(asymptote)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>Laptrain</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#&gt; # A tibble: 226 x 4</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#&gt;      Obs Part  trial Duration</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt;  1     1 01        1     9.24</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt;  2     2 01        2     4.62</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;  3     3 01        3     5.59</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;  4     4 01        4     3.23</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;  5     5 01        5     3.19</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;  6     6 01        6     3.85</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;  7     7 01        7     2.77</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;  8     8 01        8     2.78</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;  9     9 01        9     2.75</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt; 10    10 01       10     2.07</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt; # ... with 216 more rows</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>Laptrain <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">filter</span>(Part <span class="op">==</span><span class="st"> &quot;01&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">smoothary</span>(<span class="dt">perf =</span> Duration, <span class="dt">trial =</span> trial)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; # A tibble: 12 x 5</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="co">#&gt;      Obs Part  trial Duration predict_ARY</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="co">#&gt;    &lt;int&gt; &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="co">#&gt;  1     1 01        1     9.24        8.77</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="co">#&gt;  2     2 01        2     4.62        6.05</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="co">#&gt;  3     3 01        3     5.59        4.51</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="co">#&gt;  4     4 01        4     3.23        3.63</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="co">#&gt;  5     5 01        5     3.19        3.13</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="co">#&gt;  6     6 01        6     3.85        2.85</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="co">#&gt;  7     7 01        7     2.77        2.68</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="co">#&gt;  8     8 01        8     2.78        2.59</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="co">#&gt;  9     9 01        9     2.75        2.54</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="co">#&gt; 10    10 01       10     2.07        2.51</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="co">#&gt; 11    11 01       11     2.22        2.49</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="co">#&gt; 12    12 01       12     1.93        2.48</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>Laptrain <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">filter</span>(Part <span class="op">==</span><span class="st"> &quot;01&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">coefary</span>(<span class="dt">perf =</span> Duration, <span class="dt">trial =</span> trial)</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       ampl       rate       asym </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 11.0713599  0.5639299  2.4705255</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>Laptrain <span class="op">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="kw">group_split</span>(Part) <span class="op">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">map_df</span>(smoothary, <span class="dt">perf =</span> Duration, <span class="dt">trial =</span> trial) <span class="op">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> trial, <span class="dt">y =</span> predict_ARY, <span class="dt">group =</span> Part)) <span class="op">+</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">y =</span> Duration)) <span class="op">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">se =</span> F) <span class="op">+</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Part)</span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</span></span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>Laptrain <span class="op">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">group_split</span>(Part) <span class="op">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">map_df</span>(coefary, <span class="dt">perf =</span> Duration, <span class="dt">trial =</span> trial) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">ampl</th>
+<th align="right">rate</th>
+<th align="right">asym</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">11.071360</td>
+<td align="right">0.5639299</td>
+<td align="right">2.470525</td>
+</tr>
+<tr class="even">
+<td align="right">7.979665</td>
+<td align="right">0.2943900</td>
+<td align="right">2.555977</td>
+</tr>
+<tr class="odd">
+<td align="right">36.564616</td>
+<td align="right">1.2297408</td>
+<td align="right">3.255871</td>
+</tr>
+<tr class="even">
+<td align="right">217.240091</td>
+<td align="right">2.5695883</td>
+<td align="right">3.418671</td>
+</tr>
+<tr class="odd">
+<td align="right">7.512527</td>
+<td align="right">0.6500953</td>
+<td align="right">2.454229</td>
+</tr>
+<tr class="even">
+<td align="right">48.703493</td>
+<td align="right">1.2722443</td>
+<td align="right">2.363018</td>
+</tr>
+<tr class="odd">
+<td align="right">54.510644</td>
+<td align="right">1.3122385</td>
+<td align="right">5.834426</td>
+</tr>
+<tr class="even">
+<td align="right">49.686184</td>
+<td align="right">1.3389335</td>
+<td align="right">3.210742</td>
+</tr>
+<tr class="odd">
+<td align="right">14.515639</td>
+<td align="right">0.6546429</td>
+<td align="right">2.144077</td>
+</tr>
+<tr class="even">
+<td align="right">16.618939</td>
+<td align="right">0.0542544</td>
+<td align="right">-6.911676</td>
+</tr>
+<tr class="odd">
+<td align="right">23.353162</td>
+<td align="right">1.0895085</td>
+<td align="right">2.915175</td>
+</tr>
+<tr class="even">
+<td align="right">35.590702</td>
+<td align="right">1.1888240</td>
+<td align="right">2.607334</td>
+</tr>
+<tr class="odd">
+<td align="right">6.773496</td>
+<td align="right">0.3559559</td>
+<td align="right">2.559480</td>
+</tr>
+<tr class="even">
+<td align="right">15.853988</td>
+<td align="right">0.4078840</td>
+<td align="right">2.270936</td>
+</tr>
+<tr class="odd">
+<td align="right">21.496226</td>
+<td align="right">1.4868491</td>
+<td align="right">2.609666</td>
+</tr>
+<tr class="even">
+<td align="right">19.574724</td>
+<td align="right">0.6639450</td>
+<td align="right">3.141973</td>
+</tr>
+<tr class="odd">
+<td align="right">23.591157</td>
+<td align="right">1.0835157</td>
+<td align="right">2.730266</td>
+</tr>
+<tr class="even">
+<td align="right">9.100834</td>
+<td align="right">0.3930337</td>
+<td align="right">2.238841</td>
+</tr>
+<tr class="odd">
+<td align="right">20.648599</td>
+<td align="right">0.8997188</td>
+<td align="right">5.233456</td>
+</tr>
+</tbody>
+</table>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
