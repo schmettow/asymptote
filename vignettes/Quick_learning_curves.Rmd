@@ -1,6 +1,6 @@
 ---
 title: "Quick learning curve estimation"
-author: "Vignette Author"
+author: "Martin Schmettow"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -22,6 +22,7 @@ library(tidyverse)
 # devtools::install_github("schmettow/asymptote")
 library(asymptote)
 ```
+
 ```{r}
 Laptrain
 ```
