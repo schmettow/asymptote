@@ -19,12 +19,14 @@ knitr::opts_chunk$set(
 
 ```{r}
 library(tidyverse)
-# devtools::install_github("schmettow/asymptote")
+library(printr)
+# devtools::install_github("schmettow/asymptote", build_vignettes = T)
 library(asymptote)
 ```
 
 ```{r}
-Laptrain
+Laptrain %>% 
+  sample_n(8)
 ```
 
 ```{r}
